@@ -1,0 +1,24 @@
+version: '3'
+services:
+    web:
+        build:
+            # From which folder does the image need to be build
+            context: .
+            # Specify the Dockerfile you want to build
+            dockerfile: Dockerfile.dev
+        ports:
+            - "3001:3000"
+        volumes:
+            # This tells docker to not look for the node_modules locally
+            - /app/node_modules
+            # This tells docker to look for all other files in the root folder
+            # And rebuild if there are any changes
+            - .:/app
+    tests:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /app/node_modules
+            - .:/app
+        command: ["npm", "run", "test"]
