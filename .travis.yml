@@ -1,0 +1,12 @@
+# To run travis you need super user permissions
+sudo: required
+services:
+    # Lets Travis know we need Docker
+    - docker
+
+# Runs custom commands before the installation phase
+before_install:
+    - docker build -t richardkl/docker-react -f Dockerfile.dev .
+
+script:
+    - docker run -e CI=true richardkl/docker-react npm run test
