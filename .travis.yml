@@ -10,3 +10,24 @@ before_install:
 
 script:
     - docker run -e CI=true richardkl/docker-react npm run test
+
+deploy:
+    # How to deploy. Travis has some default services you can use
+    provider: elasticbeanstalk
+    # The region where your provider is located
+    region: "eu-west-2"
+    # The name of your elasticbeanstalk
+    app: "docker-react"
+    # The env of your elasticbeanstalk
+    env: "DockerReact-env"
+    # The name of your s3 bucket that belongs to elasticbeanstalk
+    bucket_name: "elasticbeanstalk-eu-west-2-231061592073"
+    # The folder name inside of the s3 bucket specified above
+    bucket_path: "docker-react"
+    # Only when code is pushed to master, we want to deploy
+    on:
+        branch: master
+    # These variables are stored inside Travis.
+    access_key_id: "$AWS_ACCESS_KEY"
+    secret_access_key:
+        secure: "$AWS_SECRET_KEY"
